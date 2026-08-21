@@ -47,10 +47,11 @@
   margin-top: 28px;
 }
 
+/* Final geometry intentionally mirrors B / Editorial Crop. */
 .choreo__number {
   position: absolute;
-  right: -3%;
-  top: -8%;
+  right: -1%;
+  top: -7%;
   z-index: 0;
   color: var(--orange);
   font-family: var(--display);
@@ -67,7 +68,7 @@
   top: 14%;
   width: 81%;
   height: 68%;
-  overflow: hidden;
+  overflow: visible;
   background: transparent;
   z-index: 2;
   transform-origin: 50% 50%;
@@ -79,7 +80,7 @@
   inset: 0;
   overflow: hidden;
   background: white;
-  clip-path: circle(0% at 78% 26%);
+  clip-path: circle(14px at 78% 27%);
   will-change: clip-path;
 }
 
@@ -119,13 +120,14 @@
   will-change: transform;
 }
 
+/* Keep the visible Signal dot small and crisp. The mask does the growing. */
 .choreo__dot {
   position: absolute;
   z-index: 6;
   left: 78%;
-  top: 26%;
-  width: 20px;
-  height: 20px;
+  top: 27%;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: var(--orange);
   transform: translate(-50%, -50%) scale(1);
@@ -192,13 +194,13 @@
   .choreo__kicker { align-items: flex-start; }
   .choreo__title { white-space: normal; font-size: clamp(72px, 20vw, 108px); max-width: 90%; }
   .choreo__stage { min-height: 520px; }
-  .choreo__number { right: -13%; top: -4%; font-size: 310px; }
+  .choreo__number { right: -12%; top: -4%; font-size: 310px; }
   .choreo__media { left: 4%; top: 18%; width: 93%; height: 66%; }
   .choreo__media img { transform: scale(1.82); object-position: 50% 26%; }
   .choreo__ghost { font-size: 310px; right: -16%; top: -8%; }
   .choreo__interruption { left: 0; bottom: 1%; width: 46%; }
   .choreo__dot { left: 77%; top: 28%; }
-  .choreo__media-inner { clip-path: circle(0% at 77% 28%); }
+  .choreo__media-inner { clip-path: circle(14px at 77% 28%); }
   .choreo__captions { grid-template-columns: 1fr; }
 }
 
