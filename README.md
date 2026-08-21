@@ -1,28 +1,39 @@
 # Tito — Visual Playground
 
-A code-based replacement for the Figma visual playground used during the portfolio redesign.
+A code-based visual playground for the portfolio redesign. This is intentionally not production portfolio architecture yet; it is where the visual system gets tested against real work, real crops, responsive behaviour and motion.
 
-## Current design decisions
+## Locked direction
 
-- Direction: **Digital Editorial**
+- **Digital Editorial**
 - North star: **Make the work clear. Make Tito weird.**
 - Rule: **Editorial by default. Expressive by interruption.**
 - System type: Inter
-- Display type: Antonio
-- Rare expressive type: League Gothic
+- Primary display: Antonio
+- Rare expressive display: League Gothic
 - Base: warm paper + near-black ink
 - Accent: Signal Orange
-- Project language: oversized project numbers sit behind real media; expressive interruptions are selective, not constant
+- Project language: oversized project numbers sit behind real media; expressive interruptions stay selective
 
-## Current experiment — Step 4: Image Treatment
+## Step 4 — Image treatment
 
-The same Samsung Contact Us screenshot is presented three ways:
+Decision:
 
-1. **Document** — preserve the complete UI and context.
-2. **Editorial Crop** — crop toward the part of the journey that matters.
-3. **Detail** — push the crop until UI starts behaving as graphic material.
+- **B / Editorial Crop — primary treatment**
+- **A / Document — restrained fallback when context matters**
+- **C / Detail — rejected**
+- Controlled transparency lets the oversized orange project number softly ghost through pale interface areas without washing out the screenshot.
 
-The aim is to decide how real client work enters the portfolio without redesigning or misrepresenting the original work.
+Rule: **Show the work truthfully. Crop it editorially.**
+
+## Step 5 — Metadata / content hierarchy
+
+Current hypothesis:
+
+1. **Role / Client / Agency / Period** establish context quickly.
+2. **Focus / Tech** frame the territory without becoming the headline.
+3. **Contribution** proves seniority and should carry the most meaning.
+
+Rule under test: **Context first. Tech second. Contribution wins.**
 
 ## Run locally
 
@@ -31,12 +42,8 @@ npm install
 npm run dev
 ```
 
-Then open the local Vite URL.
-
-## Where to work
+## Files
 
 - `src/main.jsx` — experiments and content
-- `src/styles.css` — visual system and image treatment rules
+- `src/styles.css` — visual system, image treatment and metadata experiments
 - `src/assets/samsung/` — real Samsung screenshots used in the playground
-
-This is intentionally a playground, not production portfolio architecture.
