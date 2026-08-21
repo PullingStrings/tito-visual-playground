@@ -10,21 +10,35 @@ const treatments = [
   {
     id: 'document',
     label: 'A / DOCUMENT',
-    description: 'The full interface. Accurate, contextual and deliberately restrained.',
+    description: 'The restrained fallback. Preserve the complete interface when context matters more than drama.',
     className: 'treatment--document',
+    status: 'FALLBACK',
   },
   {
     id: 'editorial',
     label: 'B / EDITORIAL CROP',
-    description: 'The useful part of the journey becomes the composition.',
+    description: 'Primary treatment. Keep the work truthful, crop toward the part of the journey that matters.',
     className: 'treatment--editorial',
+    status: 'PRIMARY',
   },
-  {
-    id: 'detail',
-    label: 'C / DETAIL',
-    description: 'Push the crop until the UI behaves more like graphic material.',
-    className: 'treatment--detail',
-  },
+];
+
+const contextMeta = [
+  ['ROLE', 'FRONT-END DEVELOPMENT'],
+  ['CLIENT', 'SAMSUNG UK'],
+  ['AGENCY', 'CHEIL'],
+  ['PERIOD', '2020—2026'],
+];
+
+const secondaryMeta = [
+  ['FOCUS', 'SUPPORT / REPAIR / COMMERCE'],
+  ['TECH', 'REACT / TYPESCRIPT / AEM'],
+];
+
+const contributions = [
+  'Built and evolved front-end journeys across high-traffic Samsung UK experiences.',
+  'Translated complex support, repair and commerce requirements into clear interaction systems.',
+  'Worked inside a large production ecosystem where accessibility, analytics and maintainability matter.',
 ];
 
 function SectionHeader({ index, eyebrow, title, copy }) {
@@ -40,9 +54,9 @@ function SectionHeader({ index, eyebrow, title, copy }) {
   );
 }
 
-function ProjectSpecimen({ compact = false }) {
+function ProjectSpecimen() {
   return (
-    <article className={`project-specimen ${compact ? 'project-specimen--compact' : ''}`}>
+    <article className="project-specimen">
       <div className="project-kicker">
         <span>01 / SELECTED WORK</span>
         <span>SAMSUNG UK / CHEIL</span>
@@ -61,7 +75,6 @@ function ProjectSpecimen({ compact = false }) {
 
       <div className="project-media-shell">
         <div className="media-placeholder">PROJECT MEDIA / REAL IMAGE NEXT</div>
-        <div className="project-number-shadow" aria-hidden="true">01</div>
         <div className="project-interruption">
           <span>HELP /</span>
           <span>MADE</span>
@@ -89,13 +102,17 @@ function ImageTreatment({ treatment, notesVisible }) {
           <p className="eyebrow">{treatment.label}</p>
           <p>{treatment.description}</p>
         </div>
-        <span className="treatment-status">CONTACT US / 2026</span>
+        <div className="treatment-status-wrap">
+          <span className="treatment-state">{treatment.status}</span>
+          <span className="treatment-status">CONTACT US / 2026</span>
+        </div>
       </div>
 
       <div className="treatment-stage">
         <div className="treatment-number" aria-hidden="true">01</div>
         <div className="treatment-media">
           <img src={contactUs} alt="Samsung Contact Us page with three support options" />
+          <div className="number-ghost" aria-hidden="true">01</div>
           <div className="treatment-edge" />
         </div>
         <div className="treatment-interruption">
@@ -105,12 +122,55 @@ function ImageTreatment({ treatment, notesVisible }) {
 
       {notesVisible && (
         <div className="treatment-notes">
-          {treatment.id === 'document' && <><span>✓ full context</span><span>△ less visual focus</span></>}
-          {treatment.id === 'editorial' && <><span>✓ clear focus</span><span>✓ UI stays legible</span><span>? likely centre</span></>}
-          {treatment.id === 'detail' && <><span>✓ strongest energy</span><span>△ context drops</span><span>? mobile test</span></>}
+          {treatment.id === 'document' && <><span>✓ full context</span><span>✓ restrained fallback</span><span>△ less visual focus</span></>}
+          {treatment.id === 'editorial' && <><span>✓ primary treatment</span><span>✓ clear focus</span><span>✓ controlled number ghost</span></>}
         </div>
       )}
     </article>
+  );
+}
+
+function MetadataExperiment() {
+  return (
+    <div className="metadata-experiment">
+      <div className="metadata-context">
+        {contextMeta.map(([label, value]) => (
+          <div className="metadata-pair" key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
+
+      <div className="metadata-secondary">
+        {secondaryMeta.map(([label, value]) => (
+          <div className="metadata-pair metadata-pair--secondary" key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
+
+      <div className="metadata-contribution">
+        <div className="metadata-contribution-heading">
+          <span>CONTRIBUTION</span>
+          <strong>WHAT I ACTUALLY MOVED FORWARD.</strong>
+        </div>
+        <ol>
+          {contributions.map((item, index) => (
+            <li key={item}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <p>{item}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="metadata-rule">
+        <span>THE RULE</span>
+        <strong>Context first. Tech second. Contribution wins.</strong>
+      </div>
+    </div>
   );
 }
 
@@ -119,7 +179,7 @@ function StressTest() {
     <div className="stress-grid">
       <figure className="stress-card stress-card--light">
         <img src={repairHome} alt="Samsung Repair homepage" />
-        <figcaption><span>REPAIR</span><strong>Does the system survive a stronger branded source?</strong></figcaption>
+        <figcaption><span>REPAIR</span><strong>Does the crop rule survive a stronger branded source?</strong></figcaption>
       </figure>
       <figure className="stress-card stress-card--dark">
         <img src={unpacked} alt="Galaxy Unpacked page" />
@@ -174,19 +234,24 @@ function App() {
       </section>
 
       <section className="playground-section image-section" id="step-4">
-        <SectionHeader index="04" eyebrow="IMAGE TREATMENT" title="SHOW THE WORK TRUTHFULLY. CROP IT EDITORIALLY." copy="Same interface. Same design language. One variable: how the real work enters the composition." />
+        <SectionHeader index="04" eyebrow="IMAGE TREATMENT" title="SHOW THE WORK TRUTHFULLY. CROP IT EDITORIALLY." copy="B is now the primary treatment. A stays as a restrained fallback. C is retired." />
         <div className="treatment-list">
           {treatments.map(t => <ImageTreatment key={t.id} treatment={t} notesVisible={notesVisible} />)}
         </div>
       </section>
 
+      <section className="playground-section metadata-section" id="step-5">
+        <SectionHeader index="05" eyebrow="METADATA / CONTENT HIERARCHY" title="CONTEXT FIRST. TECH SECOND. CONTRIBUTION WINS." copy="The metadata should help someone understand the work quickly, then get out of the way. Seniority is proved by contribution, not by a wall of technologies." />
+        <MetadataExperiment />
+      </section>
+
       <section className="playground-section stress-section">
-        <SectionHeader index="04B" eyebrow="STRESS TEST" title="THE RULE HAS TO SURVIVE DIFFERENT SAMSUNG WORLDS." copy="Next we apply the winning crop rule to a functional repair journey and a visually loud campaign." />
+        <SectionHeader index="05B" eyebrow="STRESS TEST" title="THE SYSTEM STILL HAS TO SURVIVE DIFFERENT SAMSUNG WORLDS." copy="After metadata, we keep applying the same image rule to functional journeys and visually loud campaigns before moving into motion." />
         <StressTest />
       </section>
 
       <footer className="playground-footer">
-        <span>VISUAL PLAYGROUND / V1</span>
+        <span>VISUAL PLAYGROUND / V2</span>
         <strong>MAKE THE WORK CLEAR. MAKE TITO WEIRD.</strong>
       </footer>
     </main>
