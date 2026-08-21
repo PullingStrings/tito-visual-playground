@@ -4,207 +4,69 @@
   position: relative;
 }
 
-.choreo__pin {
-  min-height: 760px;
-  position: relative;
-  padding-top: 16px;
+.choreo + .choreo { margin-top: clamp(100px, 14vw, 190px); }
+
+.choreo__pin { min-height: 760px; position: relative; padding-top: 16px; }
+.choreo__kicker { display:flex; justify-content:space-between; gap:16px; font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
+.choreo__title-wrap { overflow:hidden; margin-top:36px; }
+.choreo__title { margin:0; font-family:var(--display); font-size:clamp(74px,10.4vw,160px); line-height:.82; font-weight:600; letter-spacing:-.025em; white-space:nowrap; }
+.choreo__subtitle { margin:16px 0 0; font-size:clamp(15px,1.5vw,22px); font-weight:800; }
+.choreo__stage { position:relative; min-height:clamp(520px,58vw,850px); margin-top:28px; }
+
+.choreo__number { position:absolute; right:-1%; top:-7%; z-index:0; color:var(--orange); font-family:var(--display); font-size:clamp(320px,46vw,700px); line-height:.72; font-weight:600; transform-origin:50% 50%; will-change:transform; }
+.choreo__media { position:absolute; left:9%; top:14%; width:81%; height:68%; overflow:visible; background:transparent; z-index:2; transform-origin:50% 50%; will-change:transform; }
+.choreo__media-inner { position:absolute; inset:0; overflow:hidden; background:white; clip-path:circle(14px at 78% 27%); will-change:clip-path; }
+.choreo__media img { width:100%; height:100%; object-fit:cover; object-position:50% 23%; transform:scale(1.38); display:block; }
+.choreo__ghost { position:absolute; right:-7%; top:-18%; z-index:2; color:var(--orange); opacity:.12; mix-blend-mode:multiply; font-family:var(--display); font-size:clamp(320px,46vw,700px); line-height:.72; font-weight:600; pointer-events:none; }
+.choreo__accent { position:absolute; right:0; top:0; bottom:0; width:8px; z-index:3; background:var(--orange); transform-origin:right center; will-change:transform; }
+.choreo__dot { position:absolute; z-index:6; left:78%; top:27%; width:16px; height:16px; border-radius:50%; background:var(--orange); transform:translate(-50%,-50%) scale(1); transform-origin:50% 50%; will-change:transform,opacity; pointer-events:none; }
+.choreo__interruption { position:absolute; left:1%; bottom:7%; z-index:5; width:min(27%,390px); padding:clamp(22px,3vw,42px); background:var(--ink); color:var(--paper); will-change:transform; }
+.choreo__interruption span { display:block; font-family:'League Gothic',var(--display); font-size:clamp(46px,5.7vw,82px); line-height:.72; }
+
+/* 02 / MIRROR: same grammar, opposite directional bias. */
+.choreo--mirror .choreo__kicker { flex-direction:row-reverse; }
+.choreo--mirror .choreo__title-wrap,
+.choreo--mirror .choreo__subtitle { text-align:right; }
+.choreo--mirror .choreo__number { right:auto; left:-1%; }
+.choreo--mirror .choreo__media { left:auto; right:9%; }
+.choreo--mirror .choreo__media-inner { clip-path:circle(14px at 22% 27%); }
+.choreo--mirror .choreo__dot { left:22%; top:27%; }
+.choreo--mirror .choreo__ghost { right:auto; left:-7%; }
+.choreo--mirror .choreo__accent { right:auto; left:0; transform-origin:left center; }
+.choreo--mirror .choreo__interruption { left:auto; right:1%; text-align:right; }
+.choreo--mirror .choreo__media img { object-position:50% 28%; transform:scale(1.22); }
+
+.choreo__captions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; border-top:1px solid var(--line); padding-top:18px; }
+.choreo__caption span { display:block; margin-bottom:9px; color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.04em; }
+.choreo__caption p { margin:0; max-width:390px; font-size:14px; line-height:1.45; }
+
+.motion-off .choreo__pin * { transform:none!important; clip-path:none!important; opacity:1!important; }
+.motion-off .choreo__dot { display:none; }
+
+@media (max-width:760px) {
+  .choreo__pin { min-height:680px; }
+  .choreo__kicker { align-items:flex-start; }
+  .choreo__title { white-space:normal; font-size:clamp(72px,20vw,108px); max-width:90%; }
+  .choreo--mirror .choreo__title { margin-left:auto; }
+  .choreo__stage { min-height:520px; }
+  .choreo__number { right:-12%; top:-4%; font-size:310px; }
+  .choreo--mirror .choreo__number { right:auto; left:-12%; }
+  .choreo__media { left:4%; top:18%; width:93%; height:66%; }
+  .choreo--mirror .choreo__media { left:auto; right:4%; }
+  .choreo__media img { transform:scale(1.82); object-position:50% 26%; }
+  .choreo--mirror .choreo__media img { transform:scale(1.48); object-position:50% 30%; }
+  .choreo__ghost { font-size:310px; right:-16%; top:-8%; }
+  .choreo--mirror .choreo__ghost { right:auto; left:-16%; }
+  .choreo__interruption { left:0; bottom:1%; width:46%; }
+  .choreo--mirror .choreo__interruption { left:auto; right:0; }
+  .choreo__dot { left:77%; top:28%; }
+  .choreo--mirror .choreo__dot { left:23%; top:28%; }
+  .choreo__media-inner { clip-path:circle(14px at 77% 28%); }
+  .choreo--mirror .choreo__media-inner { clip-path:circle(14px at 23% 28%); }
+  .choreo__captions { grid-template-columns:1fr; }
 }
 
-.choreo__kicker {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-}
-
-.choreo__title-wrap {
-  overflow: hidden;
-  margin-top: 36px;
-}
-
-.choreo__title {
-  margin: 0;
-  font-family: var(--display);
-  font-size: clamp(74px, 10.4vw, 160px);
-  line-height: .82;
-  font-weight: 600;
-  letter-spacing: -.025em;
-  white-space: nowrap;
-}
-
-.choreo__subtitle {
-  margin: 16px 0 0;
-  font-size: clamp(15px, 1.5vw, 22px);
-  font-weight: 800;
-}
-
-.choreo__stage {
-  position: relative;
-  min-height: clamp(520px, 58vw, 850px);
-  margin-top: 28px;
-}
-
-/* Final geometry intentionally mirrors B / Editorial Crop. */
-.choreo__number {
-  position: absolute;
-  right: -1%;
-  top: -7%;
-  z-index: 0;
-  color: var(--orange);
-  font-family: var(--display);
-  font-size: clamp(320px, 46vw, 700px);
-  line-height: .72;
-  font-weight: 600;
-  transform-origin: 50% 50%;
-  will-change: transform;
-}
-
-.choreo__media {
-  position: absolute;
-  left: 9%;
-  top: 14%;
-  width: 81%;
-  height: 68%;
-  overflow: visible;
-  background: transparent;
-  z-index: 2;
-  transform-origin: 50% 50%;
-  will-change: transform;
-}
-
-.choreo__media-inner {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background: white;
-  clip-path: circle(14px at 78% 27%);
-  will-change: clip-path;
-}
-
-.choreo__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 23%;
-  transform: scale(1.38);
-  display: block;
-}
-
-.choreo__ghost {
-  position: absolute;
-  right: -7%;
-  top: -18%;
-  z-index: 2;
-  color: var(--orange);
-  opacity: .12;
-  mix-blend-mode: multiply;
-  font-family: var(--display);
-  font-size: clamp(320px, 46vw, 700px);
-  line-height: .72;
-  font-weight: 600;
-  pointer-events: none;
-}
-
-.choreo__accent {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 8px;
-  z-index: 3;
-  background: var(--orange);
-  transform-origin: right center;
-  will-change: transform;
-}
-
-/* Keep the visible Signal dot small and crisp. The mask does the growing. */
-.choreo__dot {
-  position: absolute;
-  z-index: 6;
-  left: 78%;
-  top: 27%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--orange);
-  transform: translate(-50%, -50%) scale(1);
-  transform-origin: 50% 50%;
-  will-change: transform, opacity;
-  pointer-events: none;
-}
-
-.choreo__interruption {
-  position: absolute;
-  left: 1%;
-  bottom: 7%;
-  z-index: 5;
-  width: min(27%, 390px);
-  padding: clamp(22px, 3vw, 42px);
-  background: var(--ink);
-  color: var(--paper);
-  will-change: transform;
-}
-
-.choreo__interruption span {
-  display: block;
-  font-family: 'League Gothic', var(--display);
-  font-size: clamp(46px, 5.7vw, 82px);
-  line-height: .72;
-}
-
-.choreo__captions {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-  border-top: 1px solid var(--line);
-  padding-top: 18px;
-}
-
-.choreo__caption span {
-  display: block;
-  margin-bottom: 9px;
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .04em;
-}
-
-.choreo__caption p {
-  margin: 0;
-  max-width: 390px;
-  font-size: 14px;
-  line-height: 1.45;
-}
-
-.motion-off .choreo__pin * {
-  transform: none !important;
-  clip-path: none !important;
-  opacity: 1 !important;
-}
-
-.motion-off .choreo__dot {
-  display: none;
-}
-
-@media (max-width: 760px) {
-  .choreo__pin { min-height: 680px; }
-  .choreo__kicker { align-items: flex-start; }
-  .choreo__title { white-space: normal; font-size: clamp(72px, 20vw, 108px); max-width: 90%; }
-  .choreo__stage { min-height: 520px; }
-  .choreo__number { right: -12%; top: -4%; font-size: 310px; }
-  .choreo__media { left: 4%; top: 18%; width: 93%; height: 66%; }
-  .choreo__media img { transform: scale(1.82); object-position: 50% 26%; }
-  .choreo__ghost { font-size: 310px; right: -16%; top: -8%; }
-  .choreo__interruption { left: 0; bottom: 1%; width: 46%; }
-  .choreo__dot { left: 77%; top: 28%; }
-  .choreo__media-inner { clip-path: circle(14px at 77% 28%); }
-  .choreo__captions { grid-template-columns: 1fr; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .choreo__pin * { transform: none !important; clip-path: none !important; opacity: 1 !important; }
-  .choreo__dot { display: none; }
+@media (prefers-reduced-motion:reduce) {
+  .choreo__pin * { transform:none!important; clip-path:none!important; opacity:1!important; }
+  .choreo__dot { display:none; }
 }
