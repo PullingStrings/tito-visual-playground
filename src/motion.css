@@ -70,6 +70,12 @@
   background:var(--project-accent);
 }
 
+/* Campaign-only layer swap: keep the animation untouched, put the solid 02 above the media. */
+.choreo--campaign .choreo__number { z-index:6; pointer-events:none; }
+.choreo--campaign .choreo__media { z-index:2; }
+.choreo--campaign .choreo__interruption { z-index:7; }
+.choreo--campaign .choreo__dot { z-index:8; }
+
 .choreo__captions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; border-top:1px solid var(--line); padding-top:18px; }
 .choreo__caption span { display:block; margin-bottom:9px; color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.04em; }
 .choreo__caption p { margin:0; max-width:390px; font-size:14px; line-height:1.45; }
