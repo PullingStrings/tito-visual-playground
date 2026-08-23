@@ -27,54 +27,81 @@ function MotionExperiment({motion,index='01',title='SAMSUNG SUPPORT',subtitle='A
    if(!motion||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
    const ctx=gsap.context(()=>{
      const q=gsap.utils.selector(root);
-     const origin=mirror?'22% 27%':'78% 27%';
-     const startNumberX=mirror?-120:120;
-     const midNumberX=mirror?82:-82;
-     const finalNumberX=mirror?58:-58;
-     const interruptionStartX=mirror?150:-150;
+     const origin=mirror?'22% 42%':'78% 27%';
      const mediaMidX=mirror?-18:18;
-     const interruptionMidX=mirror?-18:18;
-
-     // Restore the original choreography for both projects.
-     gsap.set(q('.choreo__title'),{yPercent:112});
-     gsap.set(q('.choreo__media'),{y:72,scale:.95});
-     gsap.set(q('.choreo__media-inner'),{clipPath:`circle(14px at ${origin})`});
-     gsap.set(q('.choreo__dot'),{scale:1,opacity:1});
-     gsap.set(q('.choreo__interruption'),{x:interruptionStartX,y:90,rotation:mirror?3:-3,opacity:1});
-     gsap.set(q('.choreo__number'),{x:startNumberX,y:-36,rotation:mirror?-2:2,scale:.92,opacity:1});
-     gsap.set(q('.choreo__accent'),{scaleY:.15});
-     if(campaign) gsap.set(q('.choreo__ghost'),{opacity:.28});
-
-     const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:root.current,start:'top top+=8%',end:'+=1800',scrub:1.1,pin:q('.choreo__pin')[0],anticipatePin:1,invalidateOnRefresh:true}});
-
-     tl.to(q('.choreo__title'),{yPercent:0,duration:.12},0)
-       .to(q('.choreo__number'),{x:mirror?52:-52,y:58,rotation:0,scale:1,duration:.74},0)
-       .to(q('.choreo__media'),{y:12,scale:1,duration:.18},.08)
-       .to(q('.choreo__dot'),{scale:1.15,duration:.06},.10)
-       .to(q('.choreo__media-inner'),{clipPath:`circle(36px at ${origin})`,duration:.08},.10)
-       .to(q('.choreo__media-inner'),{clipPath:`circle(140px at ${origin})`,duration:.14},.18)
-       .to(q('.choreo__media-inner'),{clipPath:`circle(340px at ${origin})`,duration:.16},.32)
-       .to(q('.choreo__dot'),{opacity:0,duration:.08},.40)
-       .to(q('.choreo__accent'),{scaleY:1,duration:.12},.44)
-       .to(q('.choreo__media-inner'),{clipPath:`circle(140% at ${origin})`,duration:.18},.48)
-       .to(q('.choreo__media'),{y:-22,x:mediaMidX,duration:.22},.58)
-       .to(q('.choreo__number'),{x:midNumberX,y:92,duration:.22},.58)
-       .to(q('.choreo__interruption'),{x:0,y:0,rotation:0,duration:.18},.62)
-       .to(q('.choreo__interruption'),{x:interruptionMidX,y:-8,duration:.18},.78)
-       // Final frame: keep the old animation, but stop on the approved Unpacked composition.
-       .to(q('.choreo__media'),{x:0,y:0,duration:.18},.86)
-       .to(q('.choreo__number'),{x:finalNumberX,y:56,rotation:0,scale:1,opacity:1,duration:.18},.86)
-       .to(q('.choreo__interruption'),{x:0,y:0,rotation:0,duration:.18},.86);
 
      if(campaign){
-       tl.to(q('.choreo__ghost'),{opacity:.28,duration:.12},.86);
+       // Campaign rule: the number is the stage. Media enters behind it, occupies it, then exits.
+       gsap.set(q('.choreo__title'),{yPercent:112});
+       gsap.set(q('.choreo__number'),{x:0,y:0,rotation:0,scale:1,opacity:1});
+       gsap.set(q('.choreo__media'),{x:0,y:24,scale:.9});
+       gsap.set(q('.choreo__media-inner'),{clipPath:`circle(0px at ${origin})`});
+       gsap.set(q('.choreo__dot'),{scale:1,opacity:1});
+       gsap.set(q('.choreo__ghost'),{opacity:0});
+       gsap.set(q('.choreo__accent'),{scaleY:1});
+       gsap.set(q('.choreo__interruption'),{x:0,y:0,rotation:-1.5,opacity:1});
+
+       const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:root.current,start:'top top+=8%',end:'+=1850',scrub:1.05,pin:q('.choreo__pin')[0],anticipatePin:1,invalidateOnRefresh:true}});
+       tl.to(q('.choreo__title'),{yPercent:0,duration:.12},.03)
+         .to(q('.choreo__dot'),{scale:1.12,duration:.06},.10)
+         .to(q('.choreo__media-inner'),{clipPath:`circle(58px at ${origin})`,duration:.08},.12)
+         .to(q('.choreo__media'),{y:10,scale:.94,duration:.10},.12)
+         .to(q('.choreo__media-inner'),{clipPath:`circle(185px at ${origin})`,duration:.13},.20)
+         .to(q('.choreo__media'),{x:mediaMidX,y:0,scale:.98,duration:.16},.24)
+         .to(q('.choreo__media-inner'),{clipPath:`circle(390px at ${origin})`,duration:.16},.33)
+         .to(q('.choreo__dot'),{opacity:0,duration:.08},.39)
+         .to(q('.choreo__media-inner'),{clipPath:`inset(0% 0% 0% 0%)`,duration:.16},.49)
+         .to(q('.choreo__media'),{x:0,y:-8,scale:1,duration:.20},.50)
+         // Hold the full campaign image behind the solid 02 for a beat.
+         .to(q('.choreo__media'),{x:10,y:-12,duration:.16},.66)
+         // Retreat: rectangle -> circle -> nothing, returning to the poster composition.
+         .to(q('.choreo__media-inner'),{clipPath:`circle(330px at ${origin})`,duration:.12},.76)
+         .to(q('.choreo__media'),{x:mediaMidX,y:4,scale:.97,duration:.12},.76)
+         .to(q('.choreo__media-inner'),{clipPath:`circle(150px at ${origin})`,duration:.12},.86)
+         .to(q('.choreo__media'),{y:18,scale:.93,duration:.12},.86)
+         .to(q('.choreo__media-inner'),{clipPath:`circle(0px at ${origin})`,duration:.10},.96)
+         .to(q('.choreo__dot'),{opacity:1,scale:1,duration:.08},.96)
+         .to(q('.choreo__media'),{x:0,y:24,scale:.9,duration:.08},.96);
+     }else{
+       const startNumberX=mirror?-120:120;
+       const midNumberX=mirror?82:-82;
+       const finalNumberX=mirror?58:-58;
+       const interruptionStartX=mirror?150:-150;
+       const interruptionMidX=mirror?-18:18;
+
+       gsap.set(q('.choreo__title'),{yPercent:112});
+       gsap.set(q('.choreo__media'),{y:72,scale:.95});
+       gsap.set(q('.choreo__media-inner'),{clipPath:`circle(14px at ${origin})`});
+       gsap.set(q('.choreo__dot'),{scale:1,opacity:1});
+       gsap.set(q('.choreo__interruption'),{x:interruptionStartX,y:90,rotation:mirror?3:-3,opacity:1});
+       gsap.set(q('.choreo__number'),{x:startNumberX,y:-36,rotation:mirror?-2:2,scale:.92,opacity:1});
+       gsap.set(q('.choreo__accent'),{scaleY:.15});
+
+       const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:root.current,start:'top top+=8%',end:'+=1800',scrub:1.1,pin:q('.choreo__pin')[0],anticipatePin:1,invalidateOnRefresh:true}});
+       tl.to(q('.choreo__title'),{yPercent:0,duration:.12},0)
+         .to(q('.choreo__number'),{x:mirror?52:-52,y:58,rotation:0,scale:1,duration:.74},0)
+         .to(q('.choreo__media'),{y:12,scale:1,duration:.18},.08)
+         .to(q('.choreo__dot'),{scale:1.15,duration:.06},.10)
+         .to(q('.choreo__media-inner'),{clipPath:`circle(36px at ${origin})`,duration:.08},.10)
+         .to(q('.choreo__media-inner'),{clipPath:`circle(140px at ${origin})`,duration:.14},.18)
+         .to(q('.choreo__media-inner'),{clipPath:`circle(340px at ${origin})`,duration:.16},.32)
+         .to(q('.choreo__dot'),{opacity:0,duration:.08},.40)
+         .to(q('.choreo__accent'),{scaleY:1,duration:.12},.44)
+         .to(q('.choreo__media-inner'),{clipPath:`circle(140% at ${origin})`,duration:.18},.48)
+         .to(q('.choreo__media'),{y:-22,x:mediaMidX,duration:.22},.58)
+         .to(q('.choreo__number'),{x:midNumberX,y:92,duration:.22},.58)
+         .to(q('.choreo__interruption'),{x:0,y:0,rotation:0,duration:.18},.62)
+         .to(q('.choreo__interruption'),{x:interruptionMidX,y:-8,duration:.18},.78)
+         .to(q('.choreo__media'),{x:0,y:0,duration:.18},.86)
+         .to(q('.choreo__number'),{x:finalNumberX,y:56,rotation:0,scale:1,opacity:1,duration:.18},.86)
+         .to(q('.choreo__interruption'),{x:0,y:0,rotation:0,duration:.18},.86);
      }
    },root);
    return()=>ctx.revert();
  },[motion,mirror,campaign]);
- return <div className={`choreo ${mirror?'choreo--mirror':''} ${campaign?'choreo--campaign':''}`} ref={root}><div className="choreo__pin"><div className="choreo__kicker"><span>{index} / LIVE STRESS TEST</span><span>GSAP / SCRUBBED / PINNED</span></div><div className="choreo__title-wrap"><h3 className="choreo__title">{title}</h3></div><p className="choreo__subtitle">{subtitle}</p><div className="choreo__stage"><div className="choreo__number" aria-hidden="true">{index}</div><div className="choreo__media"><div className="choreo__media-inner"><img src={image} alt={alt}/><div className="choreo__ghost" aria-hidden="true">{index}</div><div className="choreo__accent"/></div><div className="choreo__dot" aria-hidden="true"/></div><div className="choreo__interruption">{interruption.map(line=><span key={line}>{line}</span>)}</div></div></div><div className="choreo__captions"><div className="choreo__caption"><span>01 / SAME GRAMMAR</span><p>Signal reveal, parallax separation and editorial resolve stay consistent across projects.</p></div><div className="choreo__caption"><span>02 / DIRECTIONAL RHYTHM</span><p>{mirror?'The animation remains the mirrored version we liked: reveal origin, number and media all bias from the left.':'This project establishes the right-biased version of the system.'}</p></div><div className="choreo__caption"><span>03 / FINAL FRAME</span><p>{campaign?'Only the endpoint changes: solid 02 behind, transparent 02 through the media and the inverted block anchored bottom-right.':'The quieter support UI gives the orange system more room to speak.'}</p></div></div></div>
+ return <div className={`choreo ${mirror?'choreo--mirror':''} ${campaign?'choreo--campaign':''}`} ref={root}><div className="choreo__pin"><div className="choreo__kicker"><span>{index} / LIVE STRESS TEST</span><span>GSAP / SCRUBBED / PINNED</span></div><div className="choreo__title-wrap"><h3 className="choreo__title">{title}</h3></div><p className="choreo__subtitle">{subtitle}</p><div className="choreo__stage"><div className="choreo__number" aria-hidden="true">{index}</div><div className="choreo__media"><div className="choreo__media-inner"><img src={image} alt={alt}/><div className="choreo__ghost" aria-hidden="true">{index}</div><div className="choreo__accent"/></div><div className="choreo__dot" aria-hidden="true"/></div><div className="choreo__interruption">{interruption.map(line=><span key={line}>{line}</span>)}</div></div></div><div className="choreo__captions"><div className="choreo__caption"><span>01 / SAME FAMILY</span><p>{campaign?'The campaign still uses the Signal reveal and pinned scrub, but the number becomes the stage instead of a background layer.':'Signal reveal, parallax separation and editorial resolve stay consistent across projects.'}</p></div><div className="choreo__caption"><span>02 / OCCUPY</span><p>{campaign?'The media grows from the Signal dot behind the solid 02, temporarily occupying the typography without replacing it.':'This project establishes the right-biased version of the system.'}</p></div><div className="choreo__caption"><span>03 / RETREAT</span><p>{campaign?'After the full image moment, the media contracts back through the number and exits, returning to the poster composition.':'The quieter support UI gives the orange system more room to speak.'}</p></div></div></div>
 }
 
 function StressTest(){return <div className="stress-grid"><figure className="stress-card stress-card--light"><img src={repairHome} alt="Samsung Repair homepage"/><figcaption><span>REPAIR</span><strong>Does the crop rule survive a stronger branded source?</strong></figcaption></figure><figure className="stress-card stress-card--dark"><img src={unpacked} alt="Galaxy Unpacked page"/><figcaption><span>CAMPAIGN</span><strong>Can Tito stay visible when Samsung gets loud?</strong></figcaption></figure></div>}
-function App(){const[notesVisible,setNotesVisible]=useState(true);const[motion,setMotion]=useState(true);return <main className={motion?'motion-on':'motion-off'}><aside className="playground-controls"><button onClick={()=>setNotesVisible(v=>!v)}>{notesVisible?<EyeOff size={15}/>:<Eye size={15}/>} {notesVisible?'Hide notes':'Show notes'}</button><button onClick={()=>setMotion(v=>!v)}>{motion?<Pause size={15}/>:<Play size={15}/>} {motion?'Pause motion':'Enable motion'}</button></aside><section className="hero playground-section"><p className="eyebrow">00 / NORTH STAR</p><h1><span>MAKE THE WORK CLEAR.</span><span>MAKE TITO WEIRD.</span></h1><div className="hero-rule"/><p className="hero-copy">Digital Editorial — disciplined structure, expressive interruptions, real work.</p></section><section className="playground-section"><SectionHeader index="01" eyebrow="TYPOGRAPHY" title="CLEAR SYSTEM. DISTINCT DISPLAY VOICE." copy="Inter carries the information. Antonio carries the statement. League Gothic stays banked for rare louder moments."/><div className="type-grid"><div className="type-sample"><span>PRIMARY DISPLAY / ANTONIO</span><strong>TITO<br/>ZWANE</strong></div><div className="type-sample type-sample--system"><span>SYSTEM / INTER</span><strong>Front-end systems.<br/>Editorial rhythm.<br/>Expressive interruption.</strong></div></div></section><section className="playground-section project-language"><SectionHeader index="02" eyebrow="PROJECT LANGUAGE" title="EDITORIAL BY DEFAULT. EXPRESSIVE BY INTERRUPTION." copy="B sets the reading order. C gets one or two interruptions — not a pile-up."/><ProjectSpecimen/></section><section className="playground-section colour-section"><SectionHeader index="03" eyebrow="COLOUR" title="ONE BASE. ONE SIGNAL." copy="Warm paper + ink stay fixed. Signal orange behaves like punctuation, not a wash over the whole portfolio."/><div className="palette"><div><i className="swatch swatch--paper"/><span>PAPER</span><code>#F3F0E8</code></div><div><i className="swatch swatch--ink"/><span>INK</span><code>#111111</code></div><div><i className="swatch swatch--orange"/><span>SIGNAL ORANGE</span><code>#FF4B12</code></div></div></section><section className="playground-section image-section"><SectionHeader index="04" eyebrow="IMAGE TREATMENT" title="SHOW THE WORK TRUTHFULLY. CROP IT EDITORIALLY." copy="B is now the primary treatment. A stays as a restrained fallback. C is retired."/><div className="treatment-list">{treatments.map(t=><ImageTreatment key={t.id} treatment={t} notesVisible={notesVisible}/>)}</div></section><section className="playground-section metadata-section"><SectionHeader index="05" eyebrow="METADATA / CONTENT HIERARCHY" title="CONTEXT FIRST. TECH SECOND. CONTRIBUTION WINS." copy="The metadata should help someone understand the work quickly, then get out of the way."/><MetadataExperiment/></section><section className="playground-section motion-section" id="step-6"><SectionHeader index="06" eyebrow="MOTION SYSTEM / STRESS TEST" title="SAME MOTION. DIFFERENT END FRAME." copy="01 keeps the base Editorial Crop resolve. 02 keeps the mirrored animation we liked and simply lands on the stronger campaign composition."/><MotionExperiment motion={motion}/><MotionExperiment motion={motion} index="02" title="GALAXY UNPACKED" subtitle="LOUDER SOURCE. QUIETER SYSTEM." image={unpacked} alt="Galaxy Unpacked campaign page" mirror campaign interruption={['NEW /','ERA','OPEN.']}/></section><section className="playground-section stress-section"><SectionHeader index="06B" eyebrow="STATIC CROSS-CHECK" title="THE SYSTEM STILL HAS TO SURVIVE DIFFERENT SAMSUNG WORLDS." copy="The animated 01 / 02 test now sits above this static comparison so we can judge motion and source-art direction separately."/><StressTest/></section><footer className="playground-footer"><span>VISUAL PLAYGROUND / V9.1</span><strong>MAKE THE WORK CLEAR. MAKE TITO WEIRD.</strong></footer></main>}
+function App(){const[notesVisible,setNotesVisible]=useState(true);const[motion,setMotion]=useState(true);return <main className={motion?'motion-on':'motion-off'}><aside className="playground-controls"><button onClick={()=>setNotesVisible(v=>!v)}>{notesVisible?<EyeOff size={15}/>:<Eye size={15}/>} {notesVisible?'Hide notes':'Show notes'}</button><button onClick={()=>setMotion(v=>!v)}>{motion?<Pause size={15}/>:<Play size={15}/>} {motion?'Pause motion':'Enable motion'}</button></aside><section className="hero playground-section"><p className="eyebrow">00 / NORTH STAR</p><h1><span>MAKE THE WORK CLEAR.</span><span>MAKE TITO WEIRD.</span></h1><div className="hero-rule"/><p className="hero-copy">Digital Editorial — disciplined structure, expressive interruptions, real work.</p></section><section className="playground-section"><SectionHeader index="01" eyebrow="TYPOGRAPHY" title="CLEAR SYSTEM. DISTINCT DISPLAY VOICE." copy="Inter carries the information. Antonio carries the statement. League Gothic stays banked for rare louder moments."/><div className="type-grid"><div className="type-sample"><span>PRIMARY DISPLAY / ANTONIO</span><strong>TITO<br/>ZWANE</strong></div><div className="type-sample type-sample--system"><span>SYSTEM / INTER</span><strong>Front-end systems.<br/>Editorial rhythm.<br/>Expressive interruption.</strong></div></div></section><section className="playground-section project-language"><SectionHeader index="02" eyebrow="PROJECT LANGUAGE" title="EDITORIAL BY DEFAULT. EXPRESSIVE BY INTERRUPTION." copy="B sets the reading order. C gets one or two interruptions — not a pile-up."/><ProjectSpecimen/></section><section className="playground-section colour-section"><SectionHeader index="03" eyebrow="COLOUR" title="ONE BASE. ONE SIGNAL." copy="Warm paper + ink stay fixed. Signal orange behaves like punctuation, not a wash over the whole portfolio."/><div className="palette"><div><i className="swatch swatch--paper"/><span>PAPER</span><code>#F3F0E8</code></div><div><i className="swatch swatch--ink"/><span>INK</span><code>#111111</code></div><div><i className="swatch swatch--orange"/><span>SIGNAL ORANGE</span><code>#FF4B12</code></div></div></section><section className="playground-section image-section"><SectionHeader index="04" eyebrow="IMAGE TREATMENT" title="SHOW THE WORK TRUTHFULLY. CROP IT EDITORIALLY." copy="B is now the primary treatment. A stays as a restrained fallback. C is retired."/><div className="treatment-list">{treatments.map(t=><ImageTreatment key={t.id} treatment={t} notesVisible={notesVisible}/>)}</div></section><section className="playground-section metadata-section"><SectionHeader index="05" eyebrow="METADATA / CONTENT HIERARCHY" title="CONTEXT FIRST. TECH SECOND. CONTRIBUTION WINS." copy="The metadata should help someone understand the work quickly, then get out of the way."/><MetadataExperiment/></section><section className="playground-section motion-section" id="step-6"><SectionHeader index="06" eyebrow="MOTION SYSTEM / STRESS TEST" title="SAME FAMILY. THE NUMBER BECOMES THE STAGE." copy="01 keeps the Editorial Crop resolve. 02 uses the same Signal language differently: the campaign enters behind the solid number, occupies it for a moment, then retreats back out."/><MotionExperiment motion={motion}/><MotionExperiment motion={motion} index="02" title="GALAXY UNPACKED" subtitle="LOUDER SOURCE. QUIETER SYSTEM." image={unpacked} alt="Galaxy Unpacked campaign page" mirror campaign interruption={['NEW /','ERA','OPEN.']}/></section><section className="playground-section stress-section"><SectionHeader index="06B" eyebrow="STATIC CROSS-CHECK" title="THE SYSTEM STILL HAS TO SURVIVE DIFFERENT SAMSUNG WORLDS." copy="The animated 01 / 02 test now sits above this static comparison so we can judge motion and source-art direction separately."/><StressTest/></section><footer className="playground-footer"><span>VISUAL PLAYGROUND / V10</span><strong>MAKE THE WORK CLEAR. MAKE TITO WEIRD.</strong></footer></main>}
 createRoot(document.getElementById('root')).render(<App/>);
